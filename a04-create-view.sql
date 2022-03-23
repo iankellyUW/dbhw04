@@ -1,0 +1,1 @@
+create view i_issue_st_sv as select t1.id, t2.id as "state_id", t2.state, t1.severity_id from public.i_issue as t1 join public.i_state as t2 on (t1.state_id = t2.id) order by severity_id desc, updated desc, created desc;

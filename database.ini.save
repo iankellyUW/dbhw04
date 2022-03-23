@@ -1,0 +1,6 @@
+[postgresql]
+host=127.0.0.1
+database=ENV$DATABASE
+user=ENV$DBUSER
+oldpassword=ENV$PGPASSWORD
+password=uuqqrm

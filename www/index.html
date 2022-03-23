@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.curulean-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+
+    <title>Homework Application</title>
+<style>
+.some-style {
+	
+}
+.fixed-width-200 {
+	width: 200px;
+	margin-top: 5px;
+}
+.colorGray {
+	color: #bbb;
+}
+.form-inline-checkbox {
+	width: 30px;
+	display: inline-block;
+	margin-top: -5px;
+}
+.form-inline-checkbox:disabled {
+	background-color: green;
+}
+.form-inline-chebox-label {
+	position: relative;
+	top: -13px;
+}
+.button-table td {
+	padding: 10px;
+	
+}
+.title-large {
+	font-size: 18px;
+	font-weight: bold;
+}
+#foo {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item show-anon">
+                <a class="nav-link" href="#" id="getStatus">Status</a>	
+            </li>
+			<li class="nav-item dropdown show-anon">
+				<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Menu Items</a>
+				<div class="dropdown-menu">
+					<!-- ==================================================================================================== -->
+					<!-- Main Menu  -->
+					<!-- ==================================================================================================== -->
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderDashboard" > Issue Dashboard </a>	
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderKeywordSearch" > Keyword Search </a>	
+					<a class="dropdown-item auto-bind" href="#" id="m_learnList" data-click="renderCreateIssue" > Create Issue </a>	
+				</div>
+			</li>
+        </ul>
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Homework 4</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item show-anon">
+				<a class="nav-link bind-click" href="#" id="help" name="renderHelp" data-click="renderHelp">Help</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+	<div id="foo">
+		<div class="content container" style="width:400px;min-width:200px;">
+			<div style="margin-bottom:24px;">
+				<div class="row">
+					<div class="col-sm-12">
+						<div id="foo_class" class="card"> <!-- bg-danger -->
+							<div class="card-header"><h4 style="color:white;" id="foo_title">+title+'</h4></div>'
+							<div class="card-body bg-light">
+								<div id="foo_msg">+msg+'</div>'
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="top-of-page">
+
+		<h1 id="speical-title">&nbsp;</h1>
+
+		<div class="content container" id="msg"></div>
+		<div class="content container" id="body"></div>
+
+	</div>
+
+<!-- Found at line 114 at:File: /home/pschlump/go/src/github.com/Univ-Wyo-Education/S21-4280/learn-db/mtp/mtp.go LineNo:181 -->
+
+<script type="text/html" id="dom-template-KeywordDashboard">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Issues</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<button type="button" class="btn btn-primary bind-click" data-click="addNewIssue">New Issue</button>
+						<button type="button" class="btn btn-primary bind-click" data-click="refreshIssueList">Refresh List</button>
+						<br>	
+						<form id="form01" action="/api/v1/issue-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-KeywordSearch">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Search for Issues</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="kw">Word Search (words)</label>
+							<input type="text" class="form-control" id="kw" name="kw"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitKeywordSearch">Search</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Note">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2><input type="text" value="{{title}}" id="note_title_{{ii}}" name="note_title_{{ii}}"></h2></div>
+				<div class="card-body">
+					<textarea id="note_body_{{ii}}" name="note_body_{{ii}}" style="width:100%;">{{body}}</textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-CreateIssue">
+<div>
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Issue</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="title">Title</label>
+							<input type="text" class="form-control" id="title" name="title"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Description</label>
+							<textarea rows="15" style="width:100%" class="form-control" id="thebody" name="thebody"/></textarea>
+						</div>
+						<div class="form-group">
+							<label for="state_id">State</label>
+							<div id="paint-state"></div>
+						</div>
+						<div class="form-group">
+							<label for="severity_id">Severity</label>
+							<div id="paint-severity"></div>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="saveNewIssue">Save Issue</button>
+						<a class="btn btn-primary bind-click" data-click="cancelReturnToDashboard">Cancel</a>
+					</form>
+					<div id="issue_note_list"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Dashboard">
+<div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Issues</h2></div>
+				<div class="card-body">
+					<div id="table-paint">
+						<button type="button" class="btn btn-primary bind-click" data-click="addNewIssue">New Issue</button>
+						<button type="button" class="btn btn-primary bind-click" data-click="refreshIssueList">Refresh List</button>
+						<br>	
+						<form id="form01" action="/api/v1/issue-list" method="POST" class="bind-submit-table">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-Help">
+<div>
+	<div class="row">
+		<div class="col-sm-11">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Help</h2></div>
+				<div class="card-body">
+					<h3> Homework 4 in Computer Science 4280 </h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-TitleMainPage">
+<div>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-8">
+		  <div class="card mb-8 box-shadow bg-primary" style="height:200px;">
+				<div class="card-body">
+				  <p class="card-text"><h1> {{class_name}} Homework Application </h1></p>
+				  <div class="d-flex justify-content-between align-items-center">
+					Homework 4 - Create an Issue Schema and an Issue Application Server <br>
+				  </div>
+				</div>
+		  </div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-UpdateIssue">
+<div>
+	<div class="row">
+		<div class="col-sm-10">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Issue</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div class="form-group">
+							<label for="title">Title</label>
+							<input type="text" class="form-control" id="title" name="title" value="{{issue_title}}"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Description</label>
+							<textarea rows="15" style="width:100%" class="form-control" id="thebody" name="thebody">{{issue_body}}</textarea>
+						</div>
+						<div class="form-group">
+							<label for="state_id">State</label>
+							<div id="paint-state"></div>
+						</div>
+						<div class="form-group">
+							<label for="severity_id">Severity</label>
+							<div id="paint-severity"></div>
+							<a class="btn btn-primary bind-click" style="float:right;" data-click="addEmptyNote">Add New Note</a><br>
+						</div>
+						<input type="hidden" name="issue_id" value="{{issue_id}}">
+						<div id="paint-notes"></div>
+						<button type="button" class="btn btn-primary bind-click" data-click="updateIssue">Update Issue</button>
+						<a class="btn btn-primary bind-click" data-click="cancelReturnToDashboard">Cancel</a>
+					</form>
+					<div id="issue_note_list"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script type="text/html" id="dom-template-IssueConfirmDelete">
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Confirm Delete</h2></div>
+				<div class="card-body">
+					<form id="form01">
+						<div> Title: {{issue_title}} </div>
+						<div> Body: {{issue_body}} </div>
+						<button type="button" class="btn btn-primary bind-click" data-click="confirmDeleteIssue" data-id="{{issue_id}}">Confirm</button>
+						<a class="btn btn-primary bind-click" data-click="cancelDeleteIssue">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
+
+<script>
+
+
+function URLStrToHash(query) {
+	var rv = {};
+	var decode = function (s) { return decodeURIComponent(s.replace(/^\?/,"").replace(/\+/g, " ")); };
+
+	var p1 = query.replace(/([^&=]+)=?([^&]*)/g,function(j,n,v){
+		n = decode(n);
+		v = decode(v);
+		if ( typeof(rv[n]) === "undefined" ) {
+			rv[n] = ( typeof v === "undefined" ) ? "" : v;
+		} else if ( typeof(rv[n]) === "string" ) {
+			var x = rv[n];
+			rv[n] = [];
+			rv[n].push ( x );
+			rv[n].push ( v );
+		} else {
+			rv[n].push ( v );
+		}
+		return "";
+	});
+	return rv;
+}
+
+var g_origin = window.location.origin;
+if ( ! g_origin ) {			// Probablyl running on Opera
+	g_origin = window.location.protocol + "//" + window.location.host;
+}
+
+var g_param = URLStrToHash ( window.location.search );
+
+console.log ( window.location.search );
+console.log ( g_param );
+
+window.g_app_data = {};
+
+function guid() {
+	var d = new Date().getTime();
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		var r = (d + Math.random()*16)%16 | 0;
+		d = Math.floor(d/16);
+		return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+	});
+	return uuid;
+};
+
+
+
+</script>
+<script src="/js/jquery-3.5.1.js"></script>
+<script src="/js/popper-1.14.7.js"></script>
+<script src="/js/mustache.js" type="text/javascript"></script>
+<script src="/js/jquery.mustache.js" type="text/javascript"></script>
+<script>
+
+$("#foo").hide();
+
+// generate the function for rendering the named template.
+function genRenderFuncs( fn ) {
+	window["render"+fn] = function( event, data ) {
+		console.log ( "in render"+fn );
+		if ( event && event.preventDefault && typeof event.preventDefault == "function") { event.preventDefault(); } else { data = event; }
+		render5SecClearMessage();
+		var yt = {};
+		var xt = ( data ) ? data : {};
+		if ( window.g_data ) {
+			// $.extend ( xt, window.g_data )
+			$.extend ( yt, window.g_data );
+		}
+		if ( window.g_app_data ) {
+			// $.extend ( xt, window.g_data )
+			$.extend ( yt, window.g_app_data );
+		}
+		$.extend ( yt, xt );
+		if ( window["preRender"+fn] ) {
+			console.log ( "preRender"+fn );
+			callFunc ( "preRender"+fn, yt );
+		}
+		$("#body").html("").mustache("dom-template-"+fn, yt )
+		if ( window["postRender"+fn] ) {
+			console.log ( "postRender"+fn );
+			callFunc ( "postRender"+fn, yt );
+		}
+	}
+}
+
+// Call a function if it exists, else error
+function callFunc ( name, param ) {
+	console.log ( "Looking For Function", name);
+	if ( name ) {
+		if ( typeof window[name] === "function" ) {
+			console.log ( "Will Call Function", name, param );
+			var fx = window[name];
+			fx( param );
+		} else {
+			console.log ( "Error - missing function:", name );
+			throw "Missing function";
+		}
+	} else {
+		console.log ( "Called callFunc with undefined, probabl missing data-click in HTML template" );
+	}
+}
+
+		genRenderFuncs ( "KeywordDashboard" );
+		genRenderFuncs ( "KeywordSearch" );
+		genRenderFuncs ( "Note" );
+		genRenderFuncs ( "CreateIssue" );
+		genRenderFuncs ( "Dashboard" );
+		genRenderFuncs ( "Help" );
+		genRenderFuncs ( "TitleMainPage" );
+		genRenderFuncs ( "UpdateIssue" );
+		genRenderFuncs ( "IssueConfirmDelete" );
+
+(function ($) {
+	$(function () { 
+		$.Mustache.options.warnOnMissingTemplates = true; // Configure jquery-Mustache to warn on missing templates (to aid debugging)
+		$.Mustache.addFromDom();
+		renderTitleMainPage(   );
+		$("#body").on('click','.bind-click',function(){
+			var fx = $(this).data("click");
+			var fd = $(this).data("param");
+			fd = ( fd ) ? { "param": fd } : {};
+			console.log ( "fd=", fd );	
+			callFunc ( fx, fd );
+		});
+	});
+})(jQuery);
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+// Pull in global configuration data from server.
+// -----------------------------------------------------------------------------------------------------------------------
+(function ($) {
+	$(function () { 
+		var url = "/api/v1/get-state?_ran_=0771";
+		$.ajax({
+			type: 'GET',
+			url: url,
+			data: {},
+			success: function (data) {
+				console.log ( "Get State", data );
+				state_data = {};
+				state_select_data = [];
+				for ( var ii = 0, mx = data.data.length; ii < mx; ii++ ) {
+					state_data[ data.data[ii]["state"] ] = data.data[ii]["id"];
+					state_select_data.push ( { "value": data.data[ii]["id"], "name": data.data[ii]["state"] } );
+				}
+			},
+			error: function(resp) {
+				console.log ( "error AJAX", resp );
+				var msg = resp.statusText;
+				renderError ( "Failed to Initialize State", msg );
+				render5SecClearMessage ( );
+			}
+		});
+	});
+	$(function () { 
+		var url = "/api/v1/get-severity?_ran_=0771";
+		$.ajax({
+			type: 'GET',
+			url: url,
+			data: {},
+			success: function (data) {
+				console.log ( "Get Severity", data );
+				severity_data = {};
+				severity_select_data = [];
+				for ( var ii = 0, mx = data.data.length; ii < mx; ii++ ) {
+					severity_data[ data.data[ii]["severity"] ] = data.data[ii]["id"];
+					severity_select_data.push ( { "value": data.data[ii]["id"], "name": data.data[ii]["severity"] } );
+				}
+			},
+			error: function(resp) {
+				console.log ( "error AJAX", resp );
+				var msg = resp.statusText;
+				renderError ( "Failed to Initialize Severity", msg );
+				render5SecClearMessage ( );
+			}
+		});
+	});
+})(jQuery);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+	$(".auto-bind").click(function(){
+		callFunc ( $(this).data("click") );
+	});
+});
+
+</script>
+
+<script src="/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/application-code-01.js?_ran_=00771"></script>
+<script src="/js/table.js?_ran_=00771"></script>
+
+<script>
+console.log ( "Version 0771 - 2019-12-18T00:00:00");
+</script>
+
+</body>
+</html>

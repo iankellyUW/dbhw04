@@ -1,0 +1,34 @@
+{"status":"success","data":[
+	{
+		"id": 1,
+		"severity": "Unknown"
+	},
+	{
+		"id": 2,
+		"severity": "Ignore"
+	},
+	{
+		"id": 3,
+		"severity": "Minor"
+	},
+	{
+		"id": 4,
+		"severity": "Documentation Error"
+	},
+	{
+		"id": 6,
+		"severity": "Code Chagne"
+	},
+	{
+		"id": 7,
+		"severity": "User Interface Change"
+	},
+	{
+		"id": 8,
+		"severity": "Severe - System down"
+	},
+	{
+		"id": 9,
+		"severity": "Critial - System down"
+	}
+]}

@@ -1,0 +1,82 @@
+
+var g_state = [
+	{
+		"id": 1,
+		"state": "Created"
+	},
+	{
+		"id": 2,
+		"state": "Verified"
+	},
+	{
+		"id": 3,
+		"state": "In Progress"
+	},
+	{
+		"id": 4,
+		"state": "Development Complete"
+	},
+	{
+		"id": 5,
+		"state": "Unit Test"
+	},
+	{
+		"id": 6,
+		"state": "Integration Test"
+	},
+	{
+		"id": 7,
+		"state": "Tests Passed"
+	},
+	{
+		"id": 8,
+		"state": "Documentation"
+	},
+	{
+		"id": 9,
+		"state": "Deployed"
+	},
+	{
+		"id": 10,
+		"state": "Closed"
+	},
+	{
+		"id": 11,
+		"state": "Deleted"
+	}
+];
+
+var g_severity = [
+	{
+		"id": 1,
+		"severity": "Unknown"
+	},
+	{
+		"id": 2,
+		"severity": "Ignore"
+	},
+	{
+		"id": 3,
+		"severity": "Minor"
+	},
+	{
+		"id": 4,
+		"severity": "Documentation Error"
+	},
+	{
+		"id": 6,
+		"severity": "Code Chagne"
+	},
+	{
+		"id": 7,
+		"severity": "User Interface Change"
+	},
+	{
+		"id": 8,
+		"severity": "Severe - System down"
+	},
+	{
+		"id": 9,
+		"severity": "Critial - System down"
+	}
+];

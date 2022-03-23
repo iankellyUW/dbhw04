@@ -1,0 +1,30 @@
+<div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="card bg-default">
+				<div class="card-header"><h2>Register for Tracking Beefchain.com</h2></div>
+				<div class="card-body">
+					<form id="form01" action="/api/v2/register" method="POST" class="bind-submit-funcs">
+						<div class="form-group">
+							<label for="real_name">Your Name</label>
+							<input type="text" class="form-control" id="real_name" name="real_name"/>
+						</div>
+						<div class="form-group">
+							<label for="username">Email</label>
+							<input type="text" class="form-control" id="username" name="username"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"/>
+						</div>
+						<div class="form-group">
+							<label for="again">Password Again</label>
+							<input type="password" class="form-control" id="again" name="again"/>
+						</div>
+						<button type="button" class="btn btn-primary bind-click" data-click="submitRegister">Register Now</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
